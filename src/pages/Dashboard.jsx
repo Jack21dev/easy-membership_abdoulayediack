@@ -16,14 +16,16 @@ import calendarIcon from "../assets/icone/calendar.png";
 export default function Dashboard() {
   const { currentUser } = useAuth();
   const [loading, setLoading] = useState(true);
-  const [associationName, setAssociationName] = useState("Mon Association");
+  const [associationName, setAssociationName] = useState("");
   const [stats, setStats] = useState({
     members: 0,
     contributions: 0,
     events: 0,
   });
 
- 
+  const hasData = Boolean(
+    currentUser && (stats.members > 0 || stats.contributions > 0 || stats.events > 0 || associationName)
+  );
 
   useEffect(() => {
     async function loadData() {
@@ -57,20 +59,27 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
-      <h2 className="fw-bold mb-1 fs-3">{associationName}</h2>
+      <h2 className="fw-bold mb-1 fs-3">{associationName || "Tableau de bord"}</h2>
       <p className="text-muted mb-4 fs-6">
-        Bienvenue {currentUser?.displayName}, voici un aperçu de votre
-        association.
+        {currentUser?.displayName
+          ? `Bienvenue ${currentUser.displayName}, votre tableau de bord apparaîtra ici une fois que vous aurez ajouté vos données.`
+          : "Votre tableau de bord apparaîtra ici une fois que vous aurez ajouté vos données."}
       </p>
 
       {loading ? (
         <Loader text="Chargement du tableau de bord..." />
+      ) : !hasData ? (
+        <div className="card border-0 shadow-sm">
+          <div className="card-body py-5 text-center text-muted">
+            <p className="mb-0">Aucune donnée disponible pour le moment. Ajoutez vos premiers éléments pour remplir ce tableau de bord.</p>
+          </div>
+        </div>
       ) : (
         <div className="row">
           <DashboardCard
             icon={<img src={userIcon} alt="Icône utilisateur" style={{ width: 28, height: 28, objectFit: "contain" }} />}
             title="Nom de l'association"
-            value={associationName}
+            value={associationName || "—"}
             color="#0d6efd"
           />
           <DashboardCard
