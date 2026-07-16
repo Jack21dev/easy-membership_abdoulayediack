@@ -28,6 +28,17 @@ export default function Dashboard() {
   );
 
   useEffect(() => {
+    if (!currentUser?.uid) {
+      setAssociationName("");
+      setStats({ members: 0, contributions: 0, events: 0 });
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+    setAssociationName("");
+    setStats({ members: 0, contributions: 0, events: 0 });
+
     async function loadData() {
       try {
         const [members, contributions, events, association] =
