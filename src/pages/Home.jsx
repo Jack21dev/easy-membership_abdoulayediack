@@ -11,17 +11,19 @@ export default function Home() {
   return (
     <div className="d-flex flex-column min-vh-100" style={{ background: "linear-gradient(135deg, #f8fbff 0%, #eef4ff 100%)" }}>
       <nav className="navbar navbar-dark bg-dark px-3 py-3 shadow-sm">
-        <span className="navbar-brand mb-0 h5 d-flex align-items-center gap-2">
-          <img src={siteLogo} alt="Logo Easy Membership" style={{ width: 38, height: 38, objectFit: "contain" }} />
-          <span className="fw-semibold">Easy Membership</span>
-        </span>
-        <div>
-          <Link to="/login" className="btn btn-outline-light btn-sm me-2">
-            Connexion
-          </Link>
-          <Link to="/register" className="btn btn-primary btn-sm">
-            Inscription
-          </Link>
+        <div className="d-flex align-items-center justify-content-between w-100 gap-2 flex-wrap">
+          <span className="navbar-brand mb-0 h5 d-flex align-items-center gap-2">
+            <img src={siteLogo} alt="Logo Easy Membership" style={{ width: 38, height: 38, objectFit: "contain" }} />
+            <span className="fw-semibold">Easy Membership</span>
+          </span>
+          <div className="d-flex align-items-center gap-2">
+            <Link to="/login" className="btn btn-outline-light btn-sm me-2 me-md-0">
+              Connexion
+            </Link>
+            <Link to="/register" className="btn btn-primary btn-sm">
+              Inscription
+            </Link>
+          </div>
         </div>
       </nav>
 
@@ -76,6 +78,7 @@ export default function Home() {
           <img
             src={homeIllustration}
             alt="Illustration d'accueil Easy Membership"
+            className="d-none d-lg-block"
             style={{
               position: "absolute",
               right: "-8%",
@@ -87,10 +90,8 @@ export default function Home() {
               objectFit: "contain",
               border: "none",
               borderRadius: 0,
-              display: "block",
               zIndex: 2,
               boxShadow: "none"
-              
             }}
           />
         </div>
