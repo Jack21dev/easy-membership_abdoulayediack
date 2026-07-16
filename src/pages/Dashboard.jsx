@@ -7,6 +7,7 @@ import { getMembers } from "../services/membersService";
 import { getContributions } from "../services/contributionsService";
 import { getEvents } from "../services/eventsService";
 import { getAssociation } from "../services/associationService";
+import { withFirestoreTimeout } from "../utils/firestoreHelpers";
 import userIcon from "../assets/icone/user.png";
 import groupUsersIcon from "../assets/icone/group-users.png";
 import moneyBagIcon from "../assets/icone/money-bag.png";
@@ -29,10 +30,10 @@ export default function Dashboard() {
       try {
         const [members, contributions, events, association] =
           await Promise.all([
-            getMembers(),
-            getContributions(),
-            getEvents(),
-            getAssociation(currentUser.uid),
+            withFirestoreTimeout(getMembers(), [], 2000),
+            withFirestoreTimeout(getContributions(), [], 2000),
+            withFirestoreTimeout(getEvents(), [], 2000),
+            withFirestoreTimeout(getAssociation(currentUser.uid), null, 2000),
           ]);
 
         setStats({

@@ -8,6 +8,7 @@ import {
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase/firebase";
+import { withFirestoreTimeout } from "../utils/firestoreHelpers";
 
 const AuthContext = createContext(null);
 
@@ -35,11 +36,19 @@ export function AuthProvider({ children }) {
     }
 
     if (db && userCredential?.user?.uid) {
-      await setDoc(doc(db, "associations", userCredential.user.uid), {
-        nom: nomComplet || "Mon Association",
-        email: userCredential.user.email,
-        createdAt: new Date().toISOString(),
-      }, { merge: true });
+      await withFirestoreTimeout(
+        setDoc(
+          doc(db, "associations", userCredential.user.uid),
+          {
+            nom: nomComplet || "Mon Association",
+            email: userCredential.user.email,
+            createdAt: new Date().toISOString(),
+          },
+          { merge: true }
+        ),
+        null,
+        1500
+      );
     }
 
     return userCredential;
