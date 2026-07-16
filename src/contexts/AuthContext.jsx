@@ -19,6 +19,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [authEpoch, setAuthEpoch] = useState(0);
 
   async function signup(nomComplet, email, password) {
     if (!auth) {
@@ -30,6 +31,8 @@ export function AuthProvider({ children }) {
       email,
       password
     );
+
+    setAuthEpoch((prev) => prev + 1);
 
     if (nomComplet) {
       await updateProfile(userCredential.user, { displayName: nomComplet });
@@ -79,6 +82,7 @@ export function AuthProvider({ children }) {
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
+      setAuthEpoch((prev) => prev + 1);
       setLoading(false);
     });
 
@@ -88,6 +92,7 @@ export function AuthProvider({ children }) {
   const value = {
     currentUser,
     loading,
+    authEpoch,
     signup,
     login,
     logout,

@@ -14,7 +14,7 @@ import moneyBagIcon from "../assets/icone/money-bag.png";
 import calendarIcon from "../assets/icone/calendar.png";
 
 export default function Dashboard() {
-  const { currentUser } = useAuth();
+  const { currentUser, authEpoch } = useAuth();
   const [loading, setLoading] = useState(true);
   const [associationName, setAssociationName] = useState("");
   const [stats, setStats] = useState({
@@ -66,7 +66,7 @@ export default function Dashboard() {
     }
 
     loadData();
-  }, [currentUser]);
+  }, [currentUser, authEpoch]);
 
   return (
     <DashboardLayout>
