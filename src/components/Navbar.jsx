@@ -1,20 +1,8 @@
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import siteLogo from "../assets/icone/easy_membership_logo.png";
 
 export default function Navbar({ onToggleSidebar }) {
-  const { currentUser, logout } = useAuth();
-  const navigate = useNavigate();
-
-  async function handleLogout() {
-    try {
-      await logout();
-      navigate("/");
-    } catch (err) {
-      console.error("Erreur lors de la déconnexion :", err);
-      navigate("/");
-    }
-  }
+  const { currentUser } = useAuth();
 
   return (
     <nav className="navbar navbar-dark bg-dark px-3 py-3 sticky-top">
@@ -35,9 +23,6 @@ export default function Navbar({ onToggleSidebar }) {
         <span className="me-3 d-none d-sm-inline">
           {currentUser?.displayName || currentUser?.email}
         </span>
-        <button className="btn btn-sm btn-outline-light" onClick={handleLogout}>
-          Déconnexion
-        </button>
       </div>
     </nav>
   );

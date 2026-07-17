@@ -21,8 +21,12 @@ export default function DashboardLayout({ children }) {
   return (
     <div className="d-flex flex-column min-vh-100">
       <Navbar onToggleSidebar={() => setShowSidebar((prev) => !prev)} />
-      <div className="d-flex flex-grow-1">
-        <Sidebar show={showSidebar} onLinkClick={() => setShowSidebar(false)} />
+      <div className="d-flex flex-grow-1 position-relative">
+        <Sidebar
+          show={showSidebar}
+          onLinkClick={() => setShowSidebar(false)}
+          onClose={() => setShowSidebar(false)}
+        />
         <main className="flex-grow-1 p-3 p-md-4 bg-body-tertiary">
           {children}
         </main>
